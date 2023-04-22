@@ -163,7 +163,6 @@ public class App {
         System.out.println("Wynik sumy");
         System.out.println(groceriesSum);
 
-        */
 
 
 
