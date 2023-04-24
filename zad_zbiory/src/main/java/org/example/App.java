@@ -8,9 +8,190 @@ import java.util.HashMap;
 import java.util.*;
 import java.util.Set;
 import java.util.HashSet;
+
 public class App {
     public static void main(String[] args) {
 
+        // Task 2
+        // Stwórz dwa HashSety integerów i zaimplementuj dla nich następujące działania rachunków zbiorów:
+        // suma, część wspólna, różnica, suma bez części wspólnej.
+        // Wynik działania powinien trafić do trzeciego zbioru.
+
+        Set<Integer> setA = new HashSet<>();
+        setA.add(1);
+        setA.add(5);
+        setA.add(6);
+        setA.add(7);
+        setA.add(31);
+        setA.add(2);
+
+        Set<Integer> setB = new HashSet<>();
+        setB.add(4);
+        setB.add(5);
+        setB.add(7);
+        setB.add(21);
+        setB.add(30);
+
+        Set<Integer> setUnion = new HashSet<>();
+        for (Integer a : setA) {
+            setUnion.add(a);
+        }
+        for (Integer b : setB) {
+            setUnion.add(b);
+        }
+
+        System.out.println("Union of setA and setB:");
+        System.out.println(setUnion);
+
+        Set<Integer> setIntersection = new HashSet<>();
+        for (Integer a : setA) {
+            for (Integer b : setB) {
+                if (a == b) {
+                    setIntersection.add(a);
+                }
+            }
+        }
+        System.out.println("Intersection of setA and setB:");
+        System.out.println(setIntersection);
+
+        Set<Integer> setDifferenceAB = new HashSet<>();
+        for (Integer a : setA) {
+            boolean found = false;
+            for (Integer b : setB) {
+                if (a == b) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                setDifferenceAB.add(a);
+            }
+        }
+
+        System.out.println("Difference of setA and setB:");
+                System.out.println(setDifferenceAB);
+
+        Set<Integer> setDifferenceBA = new HashSet<>();
+        for (Integer b : setB) {
+            boolean found = false;
+            for (Integer a : setA) {
+                if (b == a) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                setDifferenceBA.add(b);
+            }
+        }
+        System.out.println("Difference of setB and setA:");
+                System.out.println(setDifferenceBA);
+
+        Set<Integer> setSymmetricDifference = new HashSet<>();
+        for (Integer a : setA) {
+            boolean found = false;
+            for (Integer b : setB) {
+                if (a == b) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                setSymmetricDifference.add(a);
+            }
+        }
+        for (Integer b : setB) {
+            boolean found = false;
+            for (Integer a : setA) {
+                if (b == a) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                setSymmetricDifference.add(b);
+            }
+        }
+
+        System.out.println("SymmetricDifference of setB and setA:");
+        System.out.println(setSymmetricDifference);
+
+// Task 3 Stwórz dwie HashMapy<String, Integer> (jak w liście zakupów) i zaimplementuj ich sumowanie.
+// Np jedna mapa to Jajka: 3; Mleko: 1, a druga to Jajka: 2; Kiełbasa: 2, wynik to Jajka: 5; Mleko: 1; Kiełbasa: 2
+
+        Map<String, Integer> mapA = new HashMap<>();
+        mapA.put("Eggs",3);
+        mapA.put("Milk",1);
+        mapA.put("Cookies",2);
+
+        Map<String, Integer> mapB = new HashMap<>();
+        mapB .put("Eggs",2);
+        mapB .put("Sausage",2);
+        mapB .put("Cookies",5);
+
+        Map<String, Integer> mapUnion = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : mapA.entrySet()) {
+            mapUnion.put(entry.getKey(), entry.getValue());
+        }
+        for (Map.Entry<String, Integer> entry : mapB.entrySet()) {
+            if (mapUnion.containsKey(entry.getKey())) {
+                mapUnion.put(entry.getKey(), mapUnion.get(entry.getKey()) + entry.getValue());
+            } else {
+                mapUnion.put(entry.getKey(), entry.getValue());
+            }
+        }
+        System.out.println("Sum of MapA and MapB:");
+        System.out.println(mapUnion);
+
+
+// Task 4 Zaimplementuj pozostałe działania rachunku zbiorów (część wspólna, różnica, suma bez części wspólnej)
+// dla HashMap z listami zakupów.
+
+        Map<String, Integer> mapIntersection = new HashMap<>();
+        for (Map.Entry<String, Integer> entryA : mapA.entrySet()) {
+            if (mapB.containsKey(entryA.getKey())) {
+                Integer valueA = entryA.getValue();
+                Integer valueB = mapB.get(entryA.getKey());
+                Integer valueDiff = valueA > valueB ? valueA - valueB : valueB - valueA;
+                mapIntersection.put(entryA.getKey(), valueDiff);
+            }
+        }
+
+        System.out.println("Intersection of MapA and MapB:");
+        System.out.println(mapIntersection);
+
+        Map<String, Integer> mapDifferenceAB = new HashMap<>();
+        for (Map.Entry<String, Integer> entryA : mapA.entrySet()) {
+            if (!mapB.containsKey(entryA.getKey())) {
+                mapDifferenceAB.put(entryA.getKey(), entryA.getValue());
+            }
+        }
+
+        System.out.println("Difference of MapA and MapB:");
+        System.out.println(mapDifferenceAB);
+
+        Map<String, Integer> mapDifferenceBA = new HashMap<>();
+        for (Map.Entry<String, Integer> entryB : mapB.entrySet()) {
+            if (!mapA.containsKey(entryB.getKey())) {
+                mapDifferenceBA.put(entryB.getKey(), entryB.getValue());
+            }
+        }
+        System.out.println("Difference of MapB and MapA:");
+        System.out.println(mapDifferenceBA);
+
+
+        Map<String, Integer> mapSymmetricDifference = new HashMap<>();
+        for (Map.Entry<String, Integer> entryA : mapA.entrySet()) {
+            if (!mapB.containsKey(entryA.getKey())) {
+                mapSymmetricDifference.put(entryA.getKey(), entryA.getValue());
+            }
+        }
+        System.out.println("Symetric difference of MapA and MapB:");
+        System.out.println(mapSymmetricDifference);
+
+        //------------Praca własna na zajęciach : kod poniżej------------
+
+        /*
         // Stwórz dwa HashSety integerów i zaimplementuj dla nich następujące działania rachunków zbiorów:
         // suma, część wspólna, różnica, suma bez części wspólnej.
         // Wynik działania powinien trafić do trzeciego zbioru.
@@ -152,13 +333,18 @@ public class App {
             String keyA = entryA.getKey();
             Integer valueA = entryA.getValue();
             groceriesSum.put(keyA, valueA);
-             }
-        for(Map.Entry<String, Integer> entryB: groceriesB.entrySet()) {
-            String keyB = entryB.getKey();
-            Integer valueB = entryB.getValue();
-            System.out.println(keyB + ": " + valueB);
-            groceriesSum.put(keyB, valueB);
+
+            for(Map.Entry<String, Integer> entryB: groceriesB.entrySet()) {
+                String keyB = entryB.getKey();
+                Integer valueB = entryB.getValue();
+                //System.out.println(keyB + ": " + valueB);
+                //Boolean inKeyB = false;
+                if (keyA != keyB) {
+                    groceriesSum.put(keyB, valueB);
+                }
             }
+
+             }
 
         System.out.println("Wynik sumy");
         System.out.println(groceriesSum);
@@ -168,7 +354,6 @@ public class App {
 
 
         //Zaimplementuj pozostałe działania rachunku zbiorów (część wspólna, różnica, suma bez części wspólnej) dla HashMap z listami zakupów.
-
+        */
     }
 }
-
